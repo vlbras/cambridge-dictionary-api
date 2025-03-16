@@ -53,3 +53,5 @@ async function handleRetry(
   }
   return { error: error.message || "Failed to fetch dictionary data" };
 }
+
+export * from "./interfaces";
