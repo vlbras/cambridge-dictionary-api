@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { DictionaryError, Word } from "./interfaces";
+import { DictionaryError, DictionaryWord } from "./interfaces";
 import { extractDialects, extractDefinitions, BASE_URL } from "./helpers";
 
 const DICTIONARY_URL = `${BASE_URL}/us/dictionary/english/`;
@@ -9,10 +9,10 @@ const USER_AGENT =
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 2000;
 
-export async function fetchWord(
+export async function fetchDictionaryWord(
   entry: string,
   retries: number = MAX_RETRIES
-): Promise<Word | DictionaryError> {
+): Promise<DictionaryWord | DictionaryError> {
   try {
     const html = await fetchHtml(DICTIONARY_URL + entry);
     const $ = cheerio.load(html);
@@ -43,15 +43,16 @@ async function handleRetry(
   error: any,
   entry: string,
   retries: number
-): Promise<Word | DictionaryError> {
+): Promise<DictionaryWord | DictionaryError> {
   if (retries > 0) {
     console.warn(`Error: ${error.message}. Retrying (${retries} left)...`);
     await new Promise((res) =>
       setTimeout(res, RETRY_DELAY_MS * (MAX_RETRIES - retries + 1))
     );
-    return fetchWord(entry, retries - 1);
+    return fetchDictionaryWord(entry, retries - 1);
   }
   return { error: error.message || "Failed to fetch dictionary data" };
 }
 
 export * from "./interfaces";
+export * from "./enums";

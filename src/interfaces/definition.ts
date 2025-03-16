@@ -1,9 +1,8 @@
-export type PartOfSpeech = "noun" | "verb" | "adjective" | "adverb";
-export type Level = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
+import { DictionaryLevel, DictionaryPartOfSpeech } from "../enums";
 
-export interface Definition {
-  pos: PartOfSpeech;
-  level?: Level;
-  meaning: string;
+export interface DictionaryDefinition {
+  definition: string;
+  partOfSpeech: DictionaryPartOfSpeech;
+  level?: DictionaryLevel;
   examples: string[];
 }

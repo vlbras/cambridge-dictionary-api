@@ -17,9 +17,9 @@ npm install cambridge-dictionary-api
 ## Usage
 
 ```ts
-import { fetchDefinition } from 'cambridge-dictionary-api';
+import { fetchDictionaryWord } from 'cambridge-dictionary-api';
 
-const result = await fetchWord('abandon');
+const result = await fetchDictionaryWord('abandon');
 console.log(result);
 ```
 
@@ -40,9 +40,9 @@ console.log(result);
   },
   "definitions": [
     {
-      "pos": "verb",
+      "definition": "to leave a place, thing, or person, usually forever:",
+      "partOfSpeech": "verb",
       "level": "B2",
-      "meaning": "to leave a place, thing, or person, usually forever:",
       "examples": [
         "We had to abandon the car.",
         "By the time the rebel troops arrived, the village had already been abandoned.",
@@ -51,9 +51,9 @@ console.log(result);
       ]
     },
     {
-      "pos": "verb",
+      "definition": "to stop doing an activity before you have finished it:",
+      "partOfSpeech": "verb",
       "level": "C1",
-      "meaning": "to stop doing an activity before you have finished it:",
       "examples": [
         "The game was abandoned at halftime because of the poor weather conditions.",
         "They had to abandon their attempt to climb the mountain.",

@@ -1,25 +1,28 @@
 import * as cheerio from "cheerio";
-import { Definition, Level, PartOfSpeech } from "../interfaces";
+import { DictionaryDefinition } from "../interfaces";
+import { DictionaryLevel, DictionaryPartOfSpeech } from "../enums";
 
-export function extractDefinitions($: cheerio.CheerioAPI): Definition[] {
-  const definitions: Definition[] = [];
+export function extractDefinitions(
+  $: cheerio.CheerioAPI
+): DictionaryDefinition[] {
+  const definitions: DictionaryDefinition[] = [];
 
   $(".pr.entry-body__el").each((_, entry) => {
     const posElement = $(entry).find(".pos.dpos").first();
     if (!posElement.length) return;
 
-    const pos = posElement.text().trim() as PartOfSpeech;
+    const partOfSpeech = posElement.text().trim() as DictionaryPartOfSpeech;
 
     $(entry)
       .find(".def-block.ddef_block")
       .each((_, defBlock) => {
-        const meaningElement = $(defBlock).find(".def.ddef_d.db");
-        if (!meaningElement.length) return;
+        const definitionElement = $(defBlock).find(".def.ddef_d.db");
+        if (!definitionElement.length) return;
 
-        const meaning = meaningElement.text().trim();
+        const definition = definitionElement.text().trim();
         const levelElement = $(defBlock).find(".epp-xref.dxref");
         const level = levelElement.length
-          ? (levelElement.text().trim() as Level)
+          ? (levelElement.text().trim() as DictionaryLevel)
           : undefined;
 
         const examples: string[] = [];
@@ -31,7 +34,12 @@ export function extractDefinitions($: cheerio.CheerioAPI): Definition[] {
           });
 
         if (examples.length >= 2) {
-          definitions.push({ pos, level, meaning, examples });
+          definitions.push({
+            definition,
+            partOfSpeech,
+            level,
+            examples,
+          });
         }
       });
   });

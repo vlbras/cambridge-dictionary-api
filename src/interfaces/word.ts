@@ -1,10 +1,9 @@
-import { Definition } from "./definition";
-import { Pronunciation } from "./pronunciation";
+import { DictionaryDialect } from "../enums";
+import { DictionaryDefinition } from "./definition";
+import { DictionaryPronunciation } from "./pronunciation";
 
-export type Dialect = "us" | "uk";
-
-export interface Word {
+export interface DictionaryWord {
   word: string;
-  dialects: Record<Dialect, Pronunciation>;
-  definitions: Definition[];
+  dialects: Record<DictionaryDialect, DictionaryPronunciation>;
+  definitions: DictionaryDefinition[];
 }

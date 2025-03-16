@@ -1,12 +1,13 @@
 import * as cheerio from "cheerio";
-import { Dialect, Pronunciation } from "../interfaces";
+import { DictionaryDialect } from "../enums";
+import { DictionaryPronunciation } from "../interfaces";
 
 export const BASE_URL = "https://dictionary.cambridge.org";
 
 export function extractDialects(
   $: cheerio.CheerioAPI
-): Record<Dialect, Pronunciation> {
-  const pronunciations: Record<Dialect, Pronunciation> = {
+): Record<DictionaryDialect, DictionaryPronunciation> {
+  const pronunciations: Record<DictionaryDialect, DictionaryPronunciation> = {
     us: { url: "", pron: "" },
     uk: { url: "", pron: "" },
   };
@@ -16,8 +17,8 @@ export function extractDialects(
     if (dialectText !== "us" && dialectText !== "uk") return;
 
     if (
-      pronunciations[dialectText as Dialect].url ||
-      pronunciations[dialectText as Dialect].pron
+      pronunciations[dialectText as DictionaryDialect].url ||
+      pronunciations[dialectText as DictionaryDialect].pron
     ) {
       return;
     }
@@ -26,7 +27,7 @@ export function extractDialects(
     const pron = $(node).find(".pron.dpron").text().trim();
 
     if (audioSource) {
-      pronunciations[dialectText as Dialect] = {
+      pronunciations[dialectText as DictionaryDialect] = {
         url: BASE_URL + audioSource,
         pron,
       };
