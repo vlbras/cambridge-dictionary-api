@@ -1,0 +1,30 @@
+{
+  "name": "cambridge-dictionary-api",
+  "version": "1.1.1",
+  "description": "API for Cambridge Dictionary",
+  "author": "Vladyslav Braslavskyi <vladyslav.braslavskyi@gmail.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "cambridge",
+    "dictionary",
+    "english",
+    "api"
+  ],
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "axios": "^1.8.3",
+    "cheerio": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
