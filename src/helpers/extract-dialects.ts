@@ -8,8 +8,8 @@ export function extractDialects(
   $: cheerio.CheerioAPI
 ): Record<DictionaryDialect, DictionaryPronunciation> {
   const pronunciations: Record<DictionaryDialect, DictionaryPronunciation> = {
-    us: { url: "", pron: "" },
-    uk: { url: "", pron: "" },
+    us: { audio: "", phonetic: "" },
+    uk: { audio: "", phonetic: "" },
   };
 
   $(".pos-header.dpos-h .dpron-i").each((_, node) => {
@@ -17,19 +17,19 @@ export function extractDialects(
     if (dialectText !== "us" && dialectText !== "uk") return;
 
     if (
-      pronunciations[dialectText as DictionaryDialect].url ||
-      pronunciations[dialectText as DictionaryDialect].pron
+      pronunciations[dialectText as DictionaryDialect].audio ||
+      pronunciations[dialectText as DictionaryDialect].phonetic
     ) {
       return;
     }
 
     const audioSource = $(node).find("audio source").attr("src");
-    const pron = $(node).find(".pron.dpron").text().trim();
+    const phonetic = $(node).find(".pron.dpron").text().trim();
 
     if (audioSource) {
       pronunciations[dialectText as DictionaryDialect] = {
-        url: BASE_URL + audioSource,
-        pron,
+        audio: BASE_URL + audioSource,
+        phonetic,
       };
     }
   });

@@ -1,4 +1,4 @@
 export interface DictionaryPronunciation {
-  url: string;
-  pron: string;
+  audio: string;
+  phonetic: string;
 }

@@ -30,12 +30,12 @@ console.log(result);
   "word": "abandon",
   "dialects": {
     "us": {
-      "url": "https://dictionary.cambridge.org/us/media/english/us_pron/a/aba/aband/abandon.mp3",
-      "pron": "/əˈbæn.dən/"
+      "audio": "https://dictionary.cambridge.org/us/media/english/us_pron/a/aba/aband/abandon.mp3",
+      "phonetic": "/əˈbæn.dən/"
     },
     "uk": {
-      "url": "https://dictionary.cambridge.org/us/media/english/uk_pron/u/uka/uka__/uka____013.mp3",
-      "pron": "/əˈbæn.dən/"
+      "audio": "https://dictionary.cambridge.org/us/media/english/uk_pron/u/uka/uka__/uka____013.mp3",
+      "phonetic": "/əˈbæn.dən/"
     }
   },
   "definitions": [
