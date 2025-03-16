@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { DictionaryError, DictionaryWord } from "./interfaces";
+import { DictionaryWord } from "./interfaces";
 import { extractDialects, extractDefinitions, BASE_URL } from "./helpers";
 
 const DICTIONARY_URL = `${BASE_URL}/us/dictionary/english/`;
@@ -8,6 +8,13 @@ const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 2000;
+
+export class DictionaryError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "DictionaryError";
+  }
+}
 
 export async function fetchDictionaryWord(
   entry: string,
@@ -51,7 +58,9 @@ async function handleRetry(
     );
     return fetchDictionaryWord(entry, retries - 1);
   }
-  return { error: error.message || "Failed to fetch dictionary data" };
+  return new DictionaryError(
+    error.message || "Failed to fetch dictionary data"
+  );
 }
 
 export * from "./interfaces";
