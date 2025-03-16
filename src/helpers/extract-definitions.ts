@@ -2,39 +2,39 @@ import * as cheerio from "cheerio";
 import { Definition, Level, PartOfSpeech } from "../interfaces";
 
 export function extractDefinitions($: cheerio.CheerioAPI): Definition[] {
-  return $(".pr.entry-body__el")
-    .map((_, entry) => {
-      const pos = $(entry)
-        .find(".pos.dpos")
-        .first()
-        .text()
-        .trim() as PartOfSpeech;
+  const definitions: Definition[] = [];
 
-      return $(entry)
-        .find(".def-block.ddef_block")
-        .map((_, defBlock) => {
-          const meaning = $(defBlock).find(".def.ddef_d.db").text().trim();
+  $(".pr.entry-body__el").each((_, entry) => {
+    const posElement = $(entry).find(".pos.dpos").first();
+    if (!posElement.length) return;
 
-          if (!meaning) return null;
+    const pos = posElement.text().trim() as PartOfSpeech;
 
-          const level = ($(defBlock).find(".epp-xref.dxref").text().trim() ||
-            undefined) as Level;
+    $(entry)
+      .find(".def-block.ddef_block")
+      .each((_, defBlock) => {
+        const meaningElement = $(defBlock).find(".def.ddef_d.db");
+        if (!meaningElement.length) return;
 
-          const examples = $(defBlock)
-            .find(".examp.dexamp")
-            .map((_, ex) => ({
-              sentence: $(ex).find(".eg.deg").text().trim(),
-              translation: $(ex).find(".trans.dtrans").text().trim(),
-            }))
-            .get()
-            .map((example) => example.sentence);
+        const meaning = meaningElement.text().trim();
+        const levelElement = $(defBlock).find(".epp-xref.dxref");
+        const level = levelElement.length
+          ? (levelElement.text().trim() as Level)
+          : undefined;
 
-          if (examples.length < 3) return null;
+        const examples: string[] = [];
+        $(defBlock)
+          .find(".examp.dexamp .eg.deg")
+          .each((_, ex) => {
+            const text = $(ex).text().trim();
+            if (text) examples.push(text);
+          });
 
-          return { pos, level, meaning, examples };
-        })
-        .get()
-        .filter((def) => def !== null);
-    })
-    .get();
+        if (examples.length >= 2) {
+          definitions.push({ pos, level, meaning, examples });
+        }
+      });
+  });
+
+  return definitions;
 }
