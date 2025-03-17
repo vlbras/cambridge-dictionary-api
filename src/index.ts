@@ -1,7 +1,12 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { DictionaryWord } from "./interfaces";
-import { extractDialects, extractDefinitions, BASE_URL } from "./helpers";
+import {
+  extractDialects,
+  extractDefinitions,
+  extractDerivedForms,
+  BASE_URL,
+} from "./helpers";
 
 const DICTIONARY_URL = `${BASE_URL}/us/dictionary/english/`;
 const USER_AGENT =
@@ -28,6 +33,7 @@ export async function fetchDictionaryWord(
       word: $(".hw.dhw").first().text().trim(),
       dialects: extractDialects($),
       definitions: extractDefinitions($),
+      derivedForms: extractDerivedForms($),
     };
   } catch (error: any) {
     return handleRetry(error, entry, retries);

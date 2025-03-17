@@ -60,7 +60,10 @@ console.log(result);
         "The party has now abandoned its policy of unilateral disarmament."
       ]
     }
-  ]
+  ],
+  "derivedForms": {
+    "noun": ["abandonment"]
+  }
 }
 ```
 
